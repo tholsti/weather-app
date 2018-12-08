@@ -26,8 +26,9 @@ export default class Cities extends Component {
     this.props.pickCity({
       city: city.title,
       woeid: city.woeid,
+      latt_long: city.latt_long
     })
-    document.getElementById('cityList').parentNode.removeChild(document.getElementById('cityList'));
+    document.getElementById('cityList').setAttribute('style','display:none');
     document.getElementById('find_city').value = null;
   }
 

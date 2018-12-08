@@ -12,6 +12,11 @@ const CityInput = styled.input`
   width: 300px;
 `
 
+const Par = styled.p`
+  padding-top: 1.5rem;
+  padding-bottom: .5rem;
+`
+
 export default class CitySearch extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +44,6 @@ export default class CitySearch extends Component {
                 citiesFound: false,
                 cities: []
               })
-              console.log(json.data)
               json.data.map(city => {
                 this.setState({
                   cities: [...this.state.cities, city],
@@ -47,36 +51,35 @@ export default class CitySearch extends Component {
                 })
               })
             })
-          
+
         }, 250);
       }
-  
-      else {
-  this.setState({
-    citiesFound: false,
-    cities: []
-  })
-}
 
+      else {
+        this.setState({
+          citiesFound: false,
+          cities: []
+        })
+      }
     })
   }
 
-render() {
-  return (
-    <div className="locationPick">
-      <p>Enter City:</p>
-      <CityInput
-        type="text"
-        id="find_city"
-        placeholder="e.g. London"
-      />
-      {this.state.citiesFound === true ?
-        <Cities
-          cities={this.state.cities}
-          pickCity={this.props.pickCity}
-        /> :
-        ""}
-    </div>
-  )
-}
+  render() {
+    return (
+      <div className="locationPick">
+        <Par>Search for a city</Par>
+        <CityInput
+          type="text"
+          id="find_city"
+          placeholder="e.g. London"
+        />
+        {this.state.citiesFound === true ?
+          <Cities
+            cities={this.state.cities}
+            pickCity={this.props.pickCity}
+          /> :
+          ""}
+      </div>
+    )
+  }
 }

@@ -3,12 +3,15 @@ import styled, {keyframes} from 'styled-components'
 import logo from '../logo.svg';
 
 const Navbar = styled.nav`
+  position: fixed;
+  top: 0;
   background-color: rgba(0,0,0,.8);
   color: white;
   padding:1rem ;
-  position: relative;
   width: 100%;
   text-align: center;
+  height: 120px;
+  z-index:1;
 `
 
 const rotate = keyframes`
@@ -28,14 +31,40 @@ const Logo = styled.img`
 const Links =  styled.div`
 `
 
+const Link = styled.span`
+  cursor:pointer;
+  &:hover {
+    font-weight: bold;
+  }
+  text-decoration: ${props => props.active ? 'underline' : 'none'};
+  
+`
+
 export default class Nav extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      mode:this.props.mode
+    }
+  }
+
+  chooseMode = (n) => {
+    this.setState({
+      mode: n
+    })
+    this.props.chooseMode(n)
+  }
 
   render() {
     return (
       <Navbar>
         <Logo src={logo} alt="React Logo"/>
         <Links>
-          Weather
+          [ <Link active={this.state.mode === 0 ? true : false} onClick={() => this.chooseMode(0)}> {this.props.headers[0]}
+          </Link> ][ 
+          {' '}<Link active={this.state.mode === 1 ? true : false} onClick={() => this.chooseMode(1)}> {this.props.headers[1]}
+          </Link> ]
         </Links> 
       </Navbar>
     )

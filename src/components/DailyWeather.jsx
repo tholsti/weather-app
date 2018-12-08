@@ -14,7 +14,6 @@ const Container = styled.div`
   text-align: left;
   padding-left: 1rem;
 `
-
 const DayBlock = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,7 +21,7 @@ const DayBlock = styled.div`
   border-radius: 1rem;
   margin: .5rem 1rem .5rem 1rem;
   padding: .5rem;
-  background-color: rgba(255,255,255,.2);
+  background-image: linear-gradient(to right, #a18cd150, #fbc2eb30);
 
   ${props => props.day == 0 && css`
     color: black;
@@ -83,7 +82,13 @@ export default class DailyWeather extends Component {
 
           </Weekday>
           <Temperature>
-            {this.props.weather.the_temp.toFixed(0)} °C
+            {/* API sometimes returns null insted of zero degrees, therefore validating result */}
+            {this.props.weather.the_temp == null ?
+              ("0 °C"
+              ) : (
+                  this.props.weather.the_temp.toFixed(0) + " °C" 
+              )
+            }
           </Temperature>
           <WeatherState>
             {this.props.weather.weather_state_name}
