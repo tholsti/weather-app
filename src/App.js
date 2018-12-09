@@ -46,6 +46,7 @@ class App extends Component {
   }
 
   chooseMode = (n) => {
+    // change between different apps (weather & concerts)
     this.setState({
       mode: n
     })
@@ -73,6 +74,7 @@ class App extends Component {
   }
 
   getConcerts = (city) => {
+    // todo: search for concerts in the city
     this.setState({
       pickedCity: city,
       concerts: "Placeholder - list of concerts in " + city.city,
@@ -92,7 +94,11 @@ class App extends Component {
           
           {/* original source of videos https://www.youtube.com/watch?v=5RyjirTajCQ & https://www.youtube.com/watch?v=Eej6AuSHpwY */}
         </Video>
-        <Nav mode={this.state.mode} chooseMode={this.chooseMode} headers={headers}/>
+        <Nav 
+          mode={this.state.mode} 
+          chooseMode={this.chooseMode} 
+          headers={headers}
+        />
         <AppContainer>
           <Header mode={this.state.mode}/>
           <CitySearch pickCity={this.pickCity}/>

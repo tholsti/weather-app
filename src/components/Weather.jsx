@@ -6,6 +6,13 @@ const WeatherContainer = styled.div`
   display:flex;
   flex-direction: column;
   align-items: center;
+  a {
+    color:white;
+    text-decoration: none;
+    &:hover {
+      color: black
+    }
+  }
 `
 
 const CityInfo = styled.div`
@@ -20,14 +27,29 @@ const WeatherPanel = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   padding-top: 1rem;
+  padding-bottom: 1rem;
   width: 800px;
   max-width: 90vw;
 `
 
 
 export default class Weather extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      focus: 0
+    }
+  }
+
   componentWillMount() {
     this.props.getForecast(this.props.city)
+  }
+
+  onFocus = (e) => {
+    this.setState({
+      focus: e 
+    })
   }
 
   render() {
@@ -38,8 +60,13 @@ export default class Weather extends Component {
           </CityInfo>
           <WeatherPanel>
             {this.props.forecast.consolidated_weather.map((weather, index) =>
-              <DailyWeather weather={weather} day={index} />
+              <DailyWeather 
+                weather={weather} 
+                day={index} 
+                isFocused={index === this.state.focus}
+                onFocus={this.onFocus} />
             )}
+            Weather information provided by <a href="https://www.metaweather.com/">metaweather.com</a>
           </WeatherPanel>
         </WeatherContainer>
 
