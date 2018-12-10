@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import Concert from './Concert'
+import sk from '../powered-by-songkick-white.png'
 
 const ConcertContainer = styled.div`
   display:flex;
@@ -23,21 +25,41 @@ const ConcertPanel = styled.div`
   max-width: 90vw;
 `
 
-
 export default class Concerts extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      focus: null
+    }
+  }
+
   componentWillMount() {
     this.props.getConcerts(this.props.city)
+  }
+
+  onFocus = (e) => {
+    this.setState({
+      focus: e
+    })
   }
   
   render() {
     return (
       <ConcertContainer>
         <CityInfo>
-          <h2>{"Upcoming concerts in " + this.props.city.city}</h2>
+          <h2>{"Upcoming concerts in " + this.props.city.cityName}</h2>
         </CityInfo>
         <ConcertPanel>
-          {this.props.concerts}
+          {this.props.concerts.map((concert, index) =>
+            <Concert
+              concert={concert}
+              isFocused={index === this.state.focus}
+              index={index}
+              onFocus={this.onFocus} />
+          )}
         </ConcertPanel>
+        <img src={sk} alt="concerts by songkick" width="100px"/>
       </ConcertContainer>
 
     )

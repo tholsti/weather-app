@@ -24,7 +24,7 @@ const CityItem = styled.li`
 export default class Cities extends Component {
   pickCity = (city) => {
     this.props.pickCity({
-      city: city.title,
+      cityName: city.title,
       woeid: city.woeid,
       latt_long: city.latt_long
     })

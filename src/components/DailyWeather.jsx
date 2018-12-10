@@ -5,20 +5,20 @@ import WeatherDetails from './WeatherDetails'
 const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const today = new Date();
 
+let gradient1 = "#005AA7";
+let gradient2 = "#FFFDE4";
+
 const DayBlock = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid black;
   border-radius: 1rem;
   margin: .5rem 1rem .5rem 1rem;
-  background-image: linear-gradient(to right, #a18cd150, #fbc2eb30);
+  background-image: linear-gradient(to right, ${gradient1}50, ${gradient2}30);
   overflow: hidden;
   
-  /* &:hover {
-    background-image: linear-gradient(to right, #a18cd170, #fbc2eb50);
-  } */
   ${props => props.focused && css`
-    background-image: linear-gradient(to right, #a18cd165, #fbc2eb45);
+    background-image: linear-gradient(to right, ${gradient1}65, ${gradient2}45);
   `}
 
 `
@@ -44,7 +44,7 @@ const Weekday = styled.div`
   background-color: gray;
   padding: .5rem;
   position: relative;
-  background-image: linear-gradient(to right, #fbc2eb90, #a18cd175);
+  background-image: linear-gradient(to right, ${gradient2}90, ${gradient1}75);
 `
 
 const Icon = styled.i`

@@ -54,8 +54,14 @@ class App extends Component {
 
   pickCity = (city) => {
     if (this.state.mode === 0) {
+      this.setState({
+        pickedCity: city
+      })
       this.getForecast(city)
     } else if (this.state.mode === 1) {
+      this.setState({
+        pickedCity: city
+      })
       this.getConcerts(city)
     }
   }
@@ -67,18 +73,34 @@ class App extends Component {
       .then(json => {
         console.log(json)
         this.setState({
-          pickedCity: city,
           forecast: json,
         })
       })
   }
 
   getConcerts = (city) => {
-    // todo: search for concerts in the city
-    this.setState({
-      pickedCity: city,
-      concerts: "Placeholder - list of concerts in " + city.city,
-    })
+    // first find the songkick location ID based on the weatherdata city search (to ensure consistency of locations in each app)
+    fetch(`https://api.songkick.com/api/3.0/search/locations.json?query=${city.cityName}&apikey=${process.env.REACT_APP_SONGKICK}`)
+      .then(response => response.json())
+      .then(json => {
+        // then do the events query with the location id
+        let songkickLocID = json.resultsPage.results.location[0].metroArea.id
+        fetch(`https://api.songkick.com/api/3.0/metro_areas/${songkickLocID}/calendar.json?apikey=${process.env.REACT_APP_SONGKICK}&per_page=10
+`)
+          .then(response => response.json())
+          .then(json => {
+            console.log(json)
+            let concerts = json.resultsPage.results.event
+            concerts.sort(function(a,b) {
+              if (a.popularity < b.popularity) return 1
+              else return - 1
+            })
+            console.log(concerts)
+            this.setState({
+              concerts: concerts
+            })
+          })
+      })
   }
 
   componentDidMount() {
@@ -109,11 +131,11 @@ class App extends Component {
               getForecast={this.state.getForecast = () => {}}
             />
           }
-          {this.state.pickedCity != null && this.state.mode === 1 && 
+          {this.state.pickedCity && this.state.concerts && this.state.mode === 1 && 
             <Concerts 
-              concerts={this.state.concerts}
-              city={this.state.pickedCity}
-              getConcerts={this.state.getConcerts = () => {}}
+            concerts={this.state.concerts}
+            city={this.state.pickedCity}
+            getConcerts={this.state.getConcerts = () => {}}
             />
           }
         </AppContainer>
