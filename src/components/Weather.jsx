@@ -28,7 +28,7 @@ const WeatherPanel = styled.div`
   justify-content: space-evenly;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  width: 800px;
+  width: 600px;
   max-width: 90vw;
 `
 

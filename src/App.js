@@ -1,49 +1,40 @@
 import React, { Component } from 'react';
-import styled from 'styled-components'
+import styled, { createGlobalStyle } from 'styled-components'
 import './App.css';
-import weatherVid from './weather.mp4'
-import concertVid from './concert.mp4'
 import CitySearch from './components/CitySearch';
 import Weather from './components/Weather';
 import Nav from './components/Nav';
 import Concerts from './components/Concerts';
-import spinner from './spinner.gif'
-
-sessionStorage.setItem('weatherVidCached', weatherVid);
-sessionStorage.setItem('concertVidCached', concertVid);
-const weatherVidCached = sessionStorage.getItem('weatherVidCached')
-const concertVidCached = sessionStorage.getItem('concertVidCached')
+import WeatherPic from './img/weather.jpg'
+import ConcertPic from './img/concert.jpg'
 
 const headers = [
   "Weather",
   "Concerts"
 ]
 
+const GlobalStyle = createGlobalStyle`
+  html {
+    background-image: url(${props => props.background === 0 ? WeatherPic : ConcertPic});
+    background-size: cover; 
+    background-position-x: center;
+    background-repeat: repeat-y;
+    background-attachment: fixed;
+  }
+`
+
 const Container = styled.main`
-  background-color: skyblue;
+  
 `
 
-const Spinner = styled.div`
-  display:flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  height: 100vh;
-`
-
-const Video = styled.video`
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+const Block = styled.div`
+  height: 120px;
 `
 
 const AppContainer = styled.div`
   position: relative;
-  margin-top: 120px;
   width: 100%;
-  background-color: rgba(0,0,0,0.25);
+  background-color: rgba(12,12,44,0.6);
   text-align:center;
   color:white;
   min-height: 50vh;
@@ -63,15 +54,6 @@ class App extends Component {
       loading: true,
       extending: false // helper to extend one search to each mode
     }
-  }
-
-  componentWillMount() {
-    if (weatherVidCached && concertVidCached)
-      setTimeout(() => {
-        this.setState({
-          loading: false
-        }) 
-      }, 1000);
   }
 
   chooseMode = (n) => {
@@ -133,29 +115,12 @@ class App extends Component {
           })
       })
   }
-
-  componentDidMount() {
-    if (!this.state.loading)
-      {document.getElementById('video').playbackRate = .6}
-  }
   
   render() {
-    if (this.state.loading) {
-      return (
-      <Container>
-        <Spinner >
-          <img src={spinner} alt="Loading..." />
-        </Spinner>
-      </Container>)
-    } else
     return (
       <Container>
-        <Video autoPlay muted loop 
-          src={this.state.mode === 0 ? weatherVidCached : this.state.mode === 1 ? concertVidCached : ""} 
-          id="video">
-          
-          {/* original source of videos https://www.youtube.com/watch?v=5RyjirTajCQ & https://www.youtube.com/watch?v=Eej6AuSHpwY */}
-        </Video>
+        <GlobalStyle background={this.state.mode} />
+        <Block />
         <Nav 
           mode={this.state.mode} 
           chooseMode={this.chooseMode} 
@@ -179,7 +144,7 @@ class App extends Component {
             />
           }
         </AppContainer>
-      </ Container>
+      </Container>
     );
   }
 }

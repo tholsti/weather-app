@@ -21,7 +21,7 @@ const ConcertPanel = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   padding-top: 1rem;
-  width: 800px;
+  width: 600px;
   max-width: 90vw;
 `
 
