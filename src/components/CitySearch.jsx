@@ -23,7 +23,7 @@ export default class CitySearch extends Component {
     this.state = {
       citiesFound: false,
       cities: [],
-      pickedCity: ""
+      pickedCity: "",
     }
   }
 
@@ -34,7 +34,7 @@ export default class CitySearch extends Component {
     let citySearch = document.getElementById(`find_city`)
     citySearch.addEventListener('keyup', () => {
       clearTimeout(timeout)
-      if (citySearch.value.length >= 4) {
+      if (citySearch.value.length >= 3) {
         // search city from Metaweather API (proxy set in package.json). Timeout to cancel calls while typing.
         timeout = setTimeout(() => {
           axios.get(`/api/location/search/?query=${citySearch.value}`
@@ -45,6 +45,7 @@ export default class CitySearch extends Component {
                   cities: [...this.state.cities, city],
                   citiesFound: true,
                 })
+                return "";
               })
             })
 

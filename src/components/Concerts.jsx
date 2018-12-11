@@ -34,7 +34,7 @@ export default class Concerts extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getConcerts(this.props.city)
   }
 

@@ -3,7 +3,10 @@ import styled, {keyframes} from 'styled-components'
 import logo from '../logo.svg';
 
 const Navbar = styled.nav`
-  position: fixed;
+  position: fixed;  
+  @media (max-height: 650px) {
+    position: relative;
+  }
   top: 0;
   background-color: rgba(0,0,0,.8);
   color: white;
@@ -12,6 +15,7 @@ const Navbar = styled.nav`
   text-align: center;
   height: 120px;
   z-index:1;
+
 `
 
 const rotate = keyframes`

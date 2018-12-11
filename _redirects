@@ -1,1 +1,2 @@
 /api/*  https://www.metaweather.com/api/:splat  200
+/static/*  https://www.metaweather.com/static/:splat  200

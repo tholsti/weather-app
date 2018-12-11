@@ -7,14 +7,29 @@ import CitySearch from './components/CitySearch';
 import Weather from './components/Weather';
 import Nav from './components/Nav';
 import Concerts from './components/Concerts';
+import spinner from './spinner.gif'
 
 sessionStorage.setItem('weatherVidCached', weatherVid);
 sessionStorage.setItem('concertVidCached', concertVid);
+const weatherVidCached = sessionStorage.getItem('weatherVidCached')
+const concertVidCached = sessionStorage.getItem('concertVidCached')
 
 const headers = [
   "Weather",
   "Concerts"
 ]
+
+const Container = styled.main`
+  background-color: skyblue;
+`
+
+const Spinner = styled.div`
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100vh;
+`
 
 const Video = styled.video`
   position: fixed;
@@ -44,8 +59,19 @@ class App extends Component {
 
     this.state = {
       pickedCity: null,
-      mode: 0
+      mode: 0,
+      loading: true,
+      extending: false // helper to extend one search to each mode
     }
+  }
+
+  componentWillMount() {
+    if (weatherVidCached && concertVidCached)
+      setTimeout(() => {
+        this.setState({
+          loading: false
+        }) 
+      }, 1000);
   }
 
   chooseMode = (n) => {
@@ -77,6 +103,7 @@ class App extends Component {
         console.log(json)
         this.setState({
           forecast: json,
+          weatherFor : city
         })
       })
   }
@@ -100,22 +127,32 @@ class App extends Component {
             })
             console.log(concerts)
             this.setState({
-              concerts: concerts
+              concerts: concerts,
+              concertsFor: city
             })
           })
       })
   }
 
   componentDidMount() {
-    document.getElementById('myVideo').playbackRate = .6
+    if (!this.state.loading)
+      {document.getElementById('video').playbackRate = .6}
   }
   
   render() {
+    if (this.state.loading) {
+      return (
+      <Container>
+        <Spinner >
+          <img src={spinner} alt="Loading..." />
+        </Spinner>
+      </Container>)
+    } else
     return (
-      <>
+      <Container>
         <Video autoPlay muted loop 
-          src={this.state.mode === 0 ? weatherVid : this.state.mode === 1 ? sessionStorage.getItem('concertVidCached') : ""} 
-          id="myVideo">
+          src={this.state.mode === 0 ? weatherVidCached : this.state.mode === 1 ? concertVidCached : ""} 
+          id="video">
           
           {/* original source of videos https://www.youtube.com/watch?v=5RyjirTajCQ & https://www.youtube.com/watch?v=Eej6AuSHpwY */}
         </Video>
@@ -142,7 +179,7 @@ class App extends Component {
             />
           }
         </AppContainer>
-      </>
+      </ Container>
     );
   }
 }
