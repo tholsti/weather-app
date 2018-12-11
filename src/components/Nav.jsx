@@ -5,7 +5,7 @@ import logo from '../logo.svg';
 const Navbar = styled.nav`
   position: fixed;  
   @media (max-height: 650px) {
-    position: relative;
+    position: absolute;
   }
   top: 0;
   background-color: rgba(0,0,0,.8);
