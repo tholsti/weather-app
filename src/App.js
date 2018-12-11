@@ -8,6 +8,9 @@ import Weather from './components/Weather';
 import Nav from './components/Nav';
 import Concerts from './components/Concerts';
 
+sessionStorage.setItem('weatherVidCached', weatherVid);
+sessionStorage.setItem('concertVidCached', concertVid);
+
 const headers = [
   "Weather",
   "Concerts"
@@ -111,7 +114,7 @@ class App extends Component {
     return (
       <>
         <Video autoPlay muted loop 
-          src={this.state.mode === 0 ? weatherVid : this.state.mode === 1 ? concertVid : ""} 
+          src={this.state.mode === 0 ? weatherVid : this.state.mode === 1 ? sessionStorage.getItem('concertVidCached') : ""} 
           id="myVideo">
           
           {/* original source of videos https://www.youtube.com/watch?v=5RyjirTajCQ & https://www.youtube.com/watch?v=Eej6AuSHpwY */}
@@ -128,14 +131,14 @@ class App extends Component {
             <Weather 
               forecast={this.state.forecast}
               city={this.state.pickedCity}
-              getForecast={this.state.getForecast = () => {}}
+              getForecast={() => this.state.getForecast}
             />
           }
           {this.state.pickedCity && this.state.concerts && this.state.mode === 1 && 
             <Concerts 
             concerts={this.state.concerts}
             city={this.state.pickedCity}
-            getConcerts={this.state.getConcerts = () => {}}
+            getConcerts={() => this.state.getConcerts}
             />
           }
         </AppContainer>

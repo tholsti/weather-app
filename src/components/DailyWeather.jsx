@@ -74,17 +74,15 @@ const WeatherState = styled.div`
 export default class DailyWeather extends Component {
 
   printDay = () => {
-    {
-      if (this.props.day === 0) {
-        return ("Today")
-      } else if (this.props.day === 1) {
-        return ("Tomorrow")
-      } else {
-        return (
-          this.props.day + today.getDay() > 6) ?
-          weekdays[this.props.day + today.getDay() - 7]
-          : weekdays[this.props.day + today.getDay()]
-      }
+    if (this.props.day === 0) {
+      return ("Today")
+    } else if (this.props.day === 1) {
+      return ("Tomorrow")
+    } else {
+      return (
+        this.props.day + today.getDay() > 6) ?
+        weekdays[this.props.day + today.getDay() - 7]
+        : weekdays[this.props.day + today.getDay()]
     }
   }
 
@@ -102,7 +100,7 @@ export default class DailyWeather extends Component {
       >
         <Weekday>
           {this.printDay()}
-          <Icon 
+          <Icon
             onClick={this.onFocus.bind(this)}
             className={this.props.isFocused ? "fas fa-minus-circle" : "fas fa-plus-circle"} />
         </Weekday>

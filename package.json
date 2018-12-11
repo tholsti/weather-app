@@ -9,9 +9,10 @@
     "react-scripts": "2.1.1",
     "styled-components": "^4.1.2"
   },
+  "files": ["./_redirects"],
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp ./_redirects ./build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

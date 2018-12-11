@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import Weather from './Weather';
 
 const Details = styled.div`
 

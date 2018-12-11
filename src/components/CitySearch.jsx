@@ -40,10 +40,6 @@ export default class CitySearch extends Component {
           axios.get(`/api/location/search/?query=${citySearch.value}`
           )
             .then(json => {
-              this.setState({
-                citiesFound: false,
-                cities: []
-              })
               json.data.map(city => {
                 this.setState({
                   cities: [...this.state.cities, city],
